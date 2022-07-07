@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - name: ubuntu-latest
+          - name: macos-latest
+          - name: windows-latest
+    runs-on: ${{ matrix.os.name }}
+
+    steps:
+      - name: Install V
+        uses: vlang/setup-v@v1
+
+      - name: Get Go's printf for V
+        uses: actions/checkout@v2
+
+      - name: Check code formatting
+        run: |
+          v fmt -diff .
+          v fmt -verify .
+
+      - name: Build Go's printf for V
+        run: v -prod .
+
+      - name: Run tests
+        run: v -stats test .

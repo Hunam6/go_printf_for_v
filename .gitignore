@@ -1,0 +1,9 @@
+#V
+vls.log
+
+#MacOS
+.DS_Store
+*.dSYM/
+
+#Temp
+src/*
